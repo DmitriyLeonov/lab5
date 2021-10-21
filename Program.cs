@@ -105,7 +105,7 @@ namespace lab5
 
     sealed class FinalExam : Exam
     {
-        public string Theme { get; set; }
+        public new string Theme { get; set; }
         public override string ToString()
         {
             return this.Theme;
