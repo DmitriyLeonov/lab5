@@ -10,6 +10,11 @@ namespace lab5
     {
         static void Main(string[] args)
         {
+            Exam exam = new Exam() { Theme = "OOP" };
+            FinalExam finalExam = new FinalExam() { Theme = "Exceptions" };
+            Printer printer = new Printer();
+            printer.IAmPrinting(exam);
+            printer.IAmPrinting(finalExam);
             Experiment test1 = new Test();
             Console.WriteLine(test1.GetTheme());
             IQuestion test2 = new Test();
@@ -19,9 +24,13 @@ namespace lab5
             {
                 Console.WriteLine("Преобразовалось");
             }
-            if (test2 is Test)
+            if (test2 is FinalExam)
             {
-                Console.WriteLine("Можно преобразовать в Test");
+                Console.WriteLine("Можно преобразовать");
+            }
+            else
+            {
+                Console.WriteLine("Нельзя преобразовать");
             }
             Console.Read();
         }
@@ -30,6 +39,11 @@ namespace lab5
     abstract class Experiment
     {
         public abstract string GetTheme();
+
+        public virtual DateTime GetDate()
+        {
+            return DateTime.Now.AddDays(7);
+        }
     }
 
     class Test : Experiment, IQuestion
@@ -54,13 +68,13 @@ namespace lab5
 
         public override string ToString()
         {
-            return this.GetType().ToString();
+            return theme;
         }
     }
 
     class Exam : Experiment
     {
-        private string theme = "OOP";
+        public string Theme { get; set; }
         private DateTime examDate = DateTime.Now.AddDays(12);
 
         public override bool Equals(object obj)
@@ -75,15 +89,15 @@ namespace lab5
 
         public override string GetTheme()
         {
-            return theme;
+            return this.Theme;
         }
 
         public override string ToString()
         {
-            return this.GetType().ToString();
+            return "Theme";
         }
 
-        public DateTime GetDate()
+        public override DateTime GetDate()
         {
             return examDate;
         }
@@ -91,9 +105,19 @@ namespace lab5
 
     sealed class FinalExam : Exam
     {
+        public string Theme { get; set; }
         public override string ToString()
         {
-            return this.GetType().ToString();
+            return this.Theme;
+        }
+    }
+
+    class Printer
+    {
+        public void IAmPrinting(Experiment obj)
+        {
+            Console.WriteLine(obj.GetType());
+            Console.WriteLine(obj.ToString());
         }
     }
 
